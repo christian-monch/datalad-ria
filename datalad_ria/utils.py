@@ -1,3 +1,6 @@
+from __future__ import annotations
+
+
 def build_ria_url(
     protocol: str,
     host: str,
