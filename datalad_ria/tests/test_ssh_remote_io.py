@@ -7,6 +7,5 @@ def test_SSHRemoteIO_basics(ria_sshserver_setup, ria_sshserver):
         'ssh://{SSH_LOGIN}@{HOST}:{SSH_PORT}'.format(**ria_sshserver_setup)
     )
     etcpasswd = ssh.read_file('/etc/passwd')
-    print(etcpasswd)
     # we can assume that the remote /etc/passwd file is not empty
     assert etcpasswd
