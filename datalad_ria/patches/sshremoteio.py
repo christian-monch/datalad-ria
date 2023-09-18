@@ -23,22 +23,7 @@ lgr = logging.getLogger('datalad.customremotes.ria_remote')
 DEFAULT_BUFFER_SIZE = 65536
 
 
-def _sshri_as_url(sshri):
-    fields = sshri.fields
-    url_format = 'ssh://'
-    if fields['username']:
-        url_format += '{username}@'
-    url_format += '{hostname}'
-    if fields['port']:
-        url_format += ':{port}'
-    if fields['path']:
-        if not fields.path.startswith('/'):
-            url_format += '/'
-        url_format += {'path'}
-    return url_format.format(**fields)
-
-
-def __init__(self, host, buffer_size=DEFAULT_BUFFER_SIZE):
+def SSHRemoteIO__init__(self, host, buffer_size=DEFAULT_BUFFER_SIZE):
     """
     Parameters
     ----------
@@ -46,6 +31,20 @@ def __init__(self, host, buffer_size=DEFAULT_BUFFER_SIZE):
       SSH-accessible host(name) to perform remote IO operations
       on.
     """
+
+    def _sshri_as_url(sshri):
+        fields = sshri.fields
+        url_format = 'ssh://'
+        if fields['username']:
+            url_format += '{username}@'
+        url_format += '{hostname}'
+        if fields['port']:
+            url_format += ':{port}'
+        if fields['path']:
+            if not fields.path.startswith('/'):
+                url_format += '/'
+            url_format += {'path'}
+        return url_format.format(**fields)
 
     # the connection to the remote
     # we don't open it yet, not yet clear if needed
@@ -80,5 +79,5 @@ def __init__(self, host, buffer_size=DEFAULT_BUFFER_SIZE):
 
 apply_patch(
     'datalad.distributed.ora_remote', 'SSHRemoteIO', '__init__',
-    __init__,
+    SSHRemoteIO__init__,
 )
